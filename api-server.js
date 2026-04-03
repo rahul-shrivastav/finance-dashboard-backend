@@ -1,13 +1,16 @@
 const express = require("express");
 const app = express();
 
-const transactionRoutes = require("./routes/transactionRoutes");
-const db = require("./database/db");
 const seedDatabase = require("./database/seed");
+const userRoutes = require("./routes/userRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
 
 require("dotenv").config();
-seedDatabase();
 app.use(express.json());
+seedDatabase();
+
+app.use("/api/users", userRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.get("/", (req, res) => {
     res.send("Finance API Running");

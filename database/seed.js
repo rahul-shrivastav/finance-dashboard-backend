@@ -41,9 +41,9 @@ const seedDatabase = () => {
         ];
 
         const userQuery = `
-      INSERT INTO users (id, name, email, password, role)
-      VALUES (?, ?, ?, ?, ?)
-    `;
+        INSERT INTO users (id, name, email, password, role)
+        VALUES (?, ?, ?, ?, ?)
+        `;
 
         users.forEach((user) => {
             db.run(userQuery, user);
