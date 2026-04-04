@@ -4,7 +4,13 @@ const authorize = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
-const { getTransactions } = require("../controllers/transactionController");
+const {
+    getTransactions,
+    createTxn,
+    updateTxn,
+    deleteTxn,
+    getTxnById,
+} = require("../controllers/transactionController");
 
 router.get(
     "/",
@@ -12,5 +18,9 @@ router.get(
     authorize("admin", "viewer", "analyst"),
     getTransactions,
 );
+router.get("/:id", authenticate, authorize("admin"), getTxnById);
+router.post("/", authenticate, authorize("admin"), createTxn);
+router.put("/:id", authenticate, authorize("admin"), updateTxn);
+router.delete("/:id", authenticate, authorize("admin"), deleteTxn);
 
 module.exports = router;
