@@ -1,14 +1,22 @@
-const db = require("../database/db");
+const { getAllUsers, findUserById } = require("../models/userModel");
 
 const getUsers = (req, res) => {
-    const query = `SELECT id,password, name, email, role, createdAt FROM users`;
-
-    db.all(query, [], (error, rows) => {
-        if (error) {
-            return res.status(500).json({ error: error.message });
-        }
-        res.json(rows);
+    getAllUsers((err, users) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(users);
     });
 };
 
-module.exports = { getUsers };
+const getUserById = (req, res) => {
+    findUserById(req.params.id, (err, user) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json(user);
+    });
+};
+
+module.exports = {
+    getUsers,
+    getUserById,
+};
