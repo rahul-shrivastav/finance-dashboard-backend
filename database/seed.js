@@ -45,7 +45,6 @@ const seedDatabase = () => {
             db.run(userQuery, user);
         });
 
-        // Insert transactions
         const transactions = [
             [
                 "user_1",

@@ -9,34 +9,51 @@ const signup = async (req, res) => {
         return res.status(400).json({ message: "All fields required" });
     }
 
-    try {
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+    const checkQuery = `SELECT * FROM users WHERE email = ? OR name = ?`;
 
-        const query = `
-      INSERT INTO users (id, name, email, password, role)
-      VALUES (?, ?, ?, ?, ?)
-    `;
+    db.get(checkQuery, [email, name], async (err, existingUser) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
 
-        db.run(query, [id, name, email, hashedPassword, role], function (err) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-
-            const token = jwt.sign(
-                { userId: id, role },
-                process.env.JWT_SECRET,
-                { expiresIn: "1d" },
-            );
-
-            res.status(201).json({
-                message: "User created",
-                token,
+        if (existingUser) {
+            return res.status(400).json({
+                message: "Email or username already exists",
             });
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+        }
+
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const insertQuery = `
+                INSERT INTO users (id, name, email, password, role)
+                VALUES (?, ?, ?, ?, ?)
+            `;
+
+            db.run(
+                insertQuery,
+                [id, name, email, hashedPassword, role],
+                function (err) {
+                    if (err) {
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    const token = jwt.sign(
+                        { userId: id, role },
+                        process.env.JWT_SECRET,
+                        { expiresIn: "1d" },
+                    );
+
+                    res.status(201).json({
+                        message: "User created",
+                        token,
+                    });
+                },
+            );
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    });
 };
 
 const login = async (req, res) => {
@@ -54,7 +71,6 @@ const login = async (req, res) => {
         }
 
         try {
-            // Compare hashed password
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {

@@ -7,7 +7,7 @@ const transactionRoutes = require("./routes/transactionRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 require("dotenv").config();
-seedDatabase();
+// seedDatabase();
 
 app.use(express.json());
 app.use("/api/users", userRoutes);

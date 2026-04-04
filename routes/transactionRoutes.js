@@ -1,6 +1,6 @@
 const express = require("express");
-const authenticate = require("../middleware/authMiddleware");
-const authorize = require("../middleware/roleMiddleware");
+const authenticate = require("../middlewares/authMiddleware");
+const authorize = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const { getTransactions } = require("../controllers/transactionController");
 router.get(
     "/",
     authenticate,
-    authorize("admin", "user", "analyst"),
+    authorize("admin", "viewer", "analyst"),
     getTransactions,
 );
 
