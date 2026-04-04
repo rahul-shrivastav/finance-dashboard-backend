@@ -2,11 +2,9 @@ const db = require("./db");
 
 const seedDatabase = () => {
     db.serialize(() => {
-        // Drop tables
         db.run(`DROP TABLE IF EXISTS transactions`);
         db.run(`DROP TABLE IF EXISTS users`);
 
-        // Create users table
         db.run(`
         CREATE TABLE users (
             id TEXT PRIMARY KEY,
@@ -17,7 +15,6 @@ const seedDatabase = () => {
             createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
 
-        // Create transactions table
         db.run(`
         CREATE TABLE transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +30,6 @@ const seedDatabase = () => {
             FOREIGN KEY (userId) REFERENCES users(id)
         )`);
 
-        // Insert users
         const users = [
             ["admin_1", "Admin User", "admin@test.com", "123456", "admin"],
             ["user_1", "Rahul", "rahul@test.com", "123456", "viewer"],

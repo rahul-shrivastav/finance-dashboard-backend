@@ -4,20 +4,21 @@ const app = express();
 const seedDatabase = require("./database/seed");
 const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 require("dotenv").config();
-app.use(express.json());
 seedDatabase();
 
+app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
-    res.send("Finance API Running");
+    res.send("backend server running");
 });
 
 const port = process.env.PORT || 3000;
-
 app.listen(port, () => {
     console.log(`Server running on port : ${port}`);
 });
