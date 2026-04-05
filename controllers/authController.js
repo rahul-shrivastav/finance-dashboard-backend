@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { findRoleById } = require("../models/roleModel");
 
 const {
     findUserByEmail,
@@ -8,9 +9,9 @@ const {
 } = require("../models/userModel");
 
 const signup = (req, res) => {
-    const { id, name, email, password, role, status } = req.body;
+    const { id, name, email, password, roleId, status } = req.body;
 
-    if (!id || !name || !email || !password || !role) {
+    if (!id || !name || !email || !password || !roleId) {
         return res.status(400).json({ message: "All fields required" });
     }
 
@@ -23,22 +24,41 @@ const signup = (req, res) => {
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-        createUser(
-            { id, name, email, password: hashedPassword, role, status },
-            (err) => {
-                if (err) return res.status(500).json({ error: err.message });
+            createUser(
+                { id, name, email, password: hashedPassword, roleId, status },
+                function (err) {
+                    if (err)
+                        return res.status(500).json({ error: err.message });
 
-                const token = jwt.sign(
-                    { userId: id, role },
-                    process.env.JWT_SECRET,
-                    { expiresIn: "1d" },
-                );
+                    findRoleById(roleId, (err, roleRow) => {
+                        if (err)
+                            return res.status(500).json({ error: err.message });
 
-                res.status(201).json({ token });
-            },
-        );
+                        if (!roleRow) {
+                            return res
+                                .status(400)
+                                .json({ message: "Invalid roleId" });
+                        }
+
+                        const token = jwt.sign(
+                            {
+                                userId: id,
+                                role: roleRow.name,
+                            },
+                            process.env.JWT_SECRET,
+                            { expiresIn: "3d" },
+                        );
+
+                        res.status(201).json({ token });
+                    });
+                },
+            );
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     });
 };
 

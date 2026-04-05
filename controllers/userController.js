@@ -8,13 +8,13 @@ const {
 } = require("../models/userModel");
 
 const createUserController = async (req, res) => {
-    const { id, name, email, password, role, status } = req.body;
+    const { id, name, email, password, roleId, status } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         createUser(
-            { id, name, email, password: hashedPassword, role, status },
+            { id, name, email, password: hashedPassword, roleId, status },
             function (err) {
                 if (err) return res.status(500).json({ error: err.message });
 
