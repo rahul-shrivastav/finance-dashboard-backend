@@ -4,6 +4,7 @@ const {
     updateTransaction,
     deleteTransaction,
     getTransactionById,
+    countTransactions,
 } = require("../models/transactionModel");
 
 const getTxnById = (req, res) => {
@@ -20,12 +21,27 @@ const getTxnById = (req, res) => {
     });
 };
 const getTransactions = (req, res) => {
-    getAllTransactions((err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
+    let { page = 1, limit = 10 } = req.query;
 
-        res.json(rows);
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const offset = (page - 1) * limit;
+
+    countTransactions((err, countResult) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        getAllTransactions(limit, offset, (err, transactions) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            res.json({
+                page,
+                limit,
+                total: countResult.total,
+                totalPages: Math.ceil(countResult.total / limit),
+                data: transactions,
+            });
+        });
     });
 };
 

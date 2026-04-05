@@ -9,14 +9,18 @@ const getTransactionById = (id, callback) => {
 
     db.get(query, [id], callback);
 };
-const getAllTransactions = (callback) => {
+const countTransactions = (callback) => {
+    db.get(`SELECT COUNT(*) as total FROM transactions`, [], callback);
+};
+const getAllTransactions = (limit, offset, callback) => {
     const query = `
     SELECT t.*, u.name as userName
     FROM transactions t
     LEFT JOIN users u ON t.userId = u.id
+    LIMIT ? OFFSET ?
   `;
 
-    db.all(query, [], callback);
+    db.all(query, [limit, offset], callback);
 };
 
 const createTransaction = (txn, callback) => {
@@ -57,4 +61,5 @@ module.exports = {
     updateTransaction,
     deleteTransaction,
     getTransactionById,
+    countTransactions,
 };

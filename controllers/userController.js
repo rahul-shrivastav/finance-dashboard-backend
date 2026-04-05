@@ -5,6 +5,7 @@ const {
     createUser,
     updateUser,
     deleteUser,
+    countUsers,
 } = require("../models/userModel");
 
 const createUserController = async (req, res) => {
@@ -45,9 +46,27 @@ const deleteUserController = (req, res) => {
 };
 
 const getUsers = (req, res) => {
-    getAllUsers((err, users) => {
+    let { page = 1, limit = 10 } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const offset = (page - 1) * limit;
+
+    countUsers((err, countResult) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json(users);
+
+        getAllUsers(limit, offset, (err, users) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            res.json({
+                page,
+                limit,
+                total: countResult.total,
+                totalPages: Math.ceil(countResult.total / limit),
+                data: users,
+            });
+        });
     });
 };
 

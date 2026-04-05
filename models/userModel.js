@@ -1,6 +1,5 @@
 const db = require("../database/db");
 
-// find by email (used in login)
 const findUserByEmail = (email, callback) => {
     db.get(
         `
@@ -14,7 +13,6 @@ const findUserByEmail = (email, callback) => {
     );
 };
 
-// find by id
 const findUserById = (id, callback) => {
     db.get(
         `
@@ -28,20 +26,23 @@ const findUserById = (id, callback) => {
     );
 };
 
-// get all users (FIXED: join roles + no password)
-const getAllUsers = (callback) => {
+const countUsers = (callback) => {
+    db.get(`SELECT COUNT(*) as total FROM users`, [], callback);
+};
+
+const getAllUsers = (limit, offset, callback) => {
     db.all(
         `
         SELECT u.id, u.name, u.email, u.status, u.createdAt, r.name as role
         FROM users u
         JOIN roles r ON u.roleId = r.id
+        LIMIT ? OFFSET ?
         `,
-        [],
+        [limit, offset],
         callback,
     );
 };
 
-// create user
 const createUser = (user, callback) => {
     const { id, name, email, password, roleId, status } = user;
 
@@ -55,7 +56,6 @@ const createUser = (user, callback) => {
     );
 };
 
-// update user
 const updateUser = (id, user, callback) => {
     const { name, email, roleId, status } = user;
 
@@ -70,12 +70,10 @@ const updateUser = (id, user, callback) => {
     );
 };
 
-// delete user
 const deleteUser = (id, callback) => {
     db.run(`DELETE FROM users WHERE id = ?`, [id], callback);
 };
 
-// check duplicate (FIXED: join role optional but cleaner)
 const findByEmailOrName = (email, name, callback) => {
     db.get(
         `
@@ -97,4 +95,5 @@ module.exports = {
     updateUser,
     deleteUser,
     findByEmailOrName,
+    countUsers,
 };

@@ -2,13 +2,11 @@ const db = require("./db");
 
 const seedDatabase = () => {
     db.serialize(() => {
-        // Drop tables (correct order)
         db.run(`DROP TABLE IF EXISTS transactions`);
         db.run(`DROP TABLE IF EXISTS users`);
         db.run(`DROP TABLE IF EXISTS categories`);
         db.run(`DROP TABLE IF EXISTS roles`);
 
-        // Roles table
         db.run(`
             CREATE TABLE roles (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +14,6 @@ const seedDatabase = () => {
             )
         `);
 
-        // Categories table (payment modes)
         db.run(`
             CREATE TABLE categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,7 +21,6 @@ const seedDatabase = () => {
             )
         `);
 
-        // Users table
         db.run(`
             CREATE TABLE users (
                 id TEXT PRIMARY KEY,
@@ -38,7 +34,6 @@ const seedDatabase = () => {
             )
         `);
 
-        // Transactions table
         db.run(`
             CREATE TABLE transactions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,19 +50,16 @@ const seedDatabase = () => {
             )
         `);
 
-        // Seed roles
         const roles = ["admin", "analyst", "viewer"];
         roles.forEach((role) => {
             db.run(`INSERT INTO roles (name) VALUES (?)`, [role]);
         });
 
-        // Seed categories (payment modes)
         const categories = ["UPI", "Cash", "Netbanking"];
         categories.forEach((name) => {
             db.run(`INSERT INTO categories (name) VALUES (?)`, [name]);
         });
 
-        // Seed users (plain passwords)
         const users = [
             ["admin_1", "Admin", "admin@test.com", "123456", 1, "active"],
             ["user_1", "Rahul", "rahul@test.com", "123456", 3, "active"],
@@ -83,7 +75,6 @@ const seedDatabase = () => {
             db.run(userQuery, user);
         });
 
-        // Seed transactions (FIXED)
         const transactions = [
             ["user_1", 1, "expense", 500, "Lunch", "admin_1"],
             ["user_1", 3, "income", 20000, "Salary", "admin_1"],
