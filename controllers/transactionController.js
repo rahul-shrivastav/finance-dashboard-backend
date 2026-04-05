@@ -30,15 +30,13 @@ const getTransactions = (req, res) => {
 };
 
 const createTxn = (req, res) => {
-    const { userId, type, amount, category, mode, date, note } = req.body;
+    const { userId, categoryId, type, amount, note } = req.body;
 
     const txn = {
         userId,
+        categoryId,
         type,
         amount,
-        category,
-        mode,
-        date,
         note,
         createdBy: req.user.userId,
     };

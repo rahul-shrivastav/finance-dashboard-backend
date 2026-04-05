@@ -8,7 +8,7 @@ const {
 } = require("../models/userModel");
 
 const signup = (req, res) => {
-    const { id, name, email, password, role } = req.body;
+    const { id, name, email, password, role, status } = req.body;
 
     if (!id || !name || !email || !password || !role) {
         return res.status(400).json({ message: "All fields required" });
@@ -26,7 +26,7 @@ const signup = (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         createUser(
-            { id, name, email, password: hashedPassword, role },
+            { id, name, email, password: hashedPassword, role, status },
             (err) => {
                 if (err) return res.status(500).json({ error: err.message });
 
@@ -56,6 +56,9 @@ const login = (req, res) => {
 
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
+        }
+        if (user.status !== "active") {
+            return res.status(403).json({ message: "Account is inactive" });
         }
 
         const token = jwt.sign(

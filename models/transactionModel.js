@@ -20,31 +20,31 @@ const getAllTransactions = (callback) => {
 };
 
 const createTransaction = (txn, callback) => {
-    const { userId, type, amount, category, mode, date, note, createdBy } = txn;
+    const { userId, categoryId, type, amount, note, createdBy } = txn;
 
     const query = `
-    INSERT INTO transactions
-    (userId, type, amount, category, mode, date, note, createdBy)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO transactions 
+(userId, categoryId, type, amount, note, createdBy)
+VALUES (?, ?, ?, ?, ?, ?)
   `;
 
     db.run(
         query,
-        [userId, type, amount, category, mode, date, note, createdBy],
+        [userId, categoryId, type, amount, note, createdBy],
         callback,
     );
 };
 
 const updateTransaction = (id, txn, callback) => {
-    const { type, amount, category, mode, date, note } = txn;
+    const { type, amount, categoryId, note } = txn;
 
     const query = `
         UPDATE transactions
-        SET type = ?, amount = ?, category = ?, mode = ?, date = ?, note = ?
+        SET type = ?, amount = ?, categoryId = ?, note = ?
         WHERE id = ?
     `;
 
-    db.run(query, [type, amount, category, mode, date, note, id], callback);
+    db.run(query, [type, amount, categoryId, note, id], callback);
 };
 
 const deleteTransaction = (id, callback) => {

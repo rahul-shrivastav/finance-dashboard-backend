@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 
-const seedDatabase = require("./database/seed");
 const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const authRoutes = require("./routes/authRoutes");
+const seedDatabase = require("./database/seed");
 
 require("dotenv").config();
-// seedDatabase();
+seedDatabase();
 
 app.use(express.json());
 app.use("/api/users", userRoutes);
