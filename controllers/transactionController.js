@@ -20,28 +20,34 @@ const getTxnById = (req, res) => {
         res.json(txn);
     });
 };
-const getTransactions = (req, res) => {
-    let { page = 1, limit = 10 } = req.query;
 
-    page = parseInt(page);
-    limit = parseInt(limit);
+const getTransactions = (req, res) => {
+    const {
+        page = 1,
+        limit = 10,
+        userId,
+        type,
+        categoryId,
+        minAmount,
+        maxAmount,
+    } = req.query;
 
     const offset = (page - 1) * limit;
 
-    countTransactions((err, countResult) => {
+    const filters = {
+        userId,
+        type,
+        categoryId,
+        minAmount,
+        maxAmount,
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+    };
+
+    getAllTransactions(filters, (err, data) => {
         if (err) return res.status(500).json({ error: err.message });
 
-        getAllTransactions(limit, offset, (err, transactions) => {
-            if (err) return res.status(500).json({ error: err.message });
-
-            res.json({
-                page,
-                limit,
-                total: countResult.total,
-                totalPages: Math.ceil(countResult.total / limit),
-                data: transactions,
-            });
-        });
+        res.json({ page, limit, data });
     });
 };
 
