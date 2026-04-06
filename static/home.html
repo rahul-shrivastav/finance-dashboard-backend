@@ -1,257 +1,227 @@
 <!doctype html>
-
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Backend Dashboard API Docs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Finance Dashboard API Docs</title>
+
         <style>
             body {
-                font-family: "Segoe UI", sans-serif;
-                background: #0f172a;
-                color: #e2e8f0;
                 margin: 0;
-            }
-
-            header {
-                background: #020617;
-                padding: 20px;
-                margin: 50px;
-                text-align: center;
-                border-bottom: 1px solid #334155;
-                border-radius: 20px;
-            }
-
-            h1 {
-                margin: 0;
-                color: #38bdf8;
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background-color: #0d1117;
+                color: #c9d1d9;
             }
 
             .container {
+                max-width: 1000px;
+                margin: auto;
                 padding: 20px;
-                margin-left: 150px;
-                margin-right: 150px;
             }
 
-            .section {
-                margin-bottom: 30px;
-                padding: 20px;
-                background: #1e293b;
-                border-radius: 12px;
+            h1 {
+                color: #58a6ff;
             }
 
             h2 {
-                border-bottom: 1px solid #334155;
-                padding-bottom: 10px;
-                margin-bottom: 15px;
-                color: #22c55e;
+                margin-top: 40px;
+                border-bottom: 1px solid #30363d;
+                padding-bottom: 5px;
             }
 
             .endpoint {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: #334155;
-                padding: 12px;
-                margin: 8px 0;
+                background: #161b22;
+                border: 1px solid #30363d;
+                padding: 15px;
                 border-radius: 8px;
-            }
-
-            .left {
-                display: flex;
-                align-items: center;
-                gap: 10px;
+                margin: 15px 0;
             }
 
             .method {
-                padding: 4px 10px;
-                border-radius: 6px;
                 font-weight: bold;
-                font-size: 12px;
+                padding: 4px 10px;
+                border-radius: 5px;
+                margin-right: 10px;
             }
 
             .GET {
-                background: #22c55e;
+                background: #238636;
             }
             .POST {
-                background: #3b82f6;
+                background: #1f6feb;
             }
             .PUT {
-                background: #eab308;
-                color: black;
+                background: #9e6a03;
             }
             .DELETE {
-                background: #ef4444;
+                background: #da3633;
             }
 
-            .path {
-                font-family: monospace;
+            .desc {
+                margin-top: 8px;
+                color: #8b949e;
+                font-size: 14px;
             }
 
-            .tag {
-                font-size: 12px;
-                background: #facc15;
-                color: black;
-                padding: 3px 6px;
-                border-radius: 5px;
+            code {
+                display: block;
+                background: #0d1117;
+                padding: 12px;
+                border-radius: 6px;
+                margin-top: 10px;
+                overflow-x: auto;
+                white-space: pre-wrap;
             }
 
-            footer {
-                text-align: center;
-                padding: 15px;
-                border-top: 1px solid #334155;
-                font-size: 12px;
-                color: #94a3b8;
+            .small {
+                color: #8b949e;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            @media (max-width: 600px) {
+                .container {
+                    padding: 10px;
+                }
             }
         </style>
     </head>
+
     <body>
-        <header>
-            <h1>API Documentation</h1>
-            <p>Backend Routes Overview</p>
-        </header>
-
         <div class="container">
-            <div class="section">
-                <h2>Authentication</h2>
+            <h1>Finance Dashboard API</h1>
+            <p class="small">Complete API documentation</p>
 
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method POST">POST</span>
-                        <span class="path">/api/auth/signup</span>
-                    </div>
-                    <span>Create new user account</span>
+            <!-- AUTH -->
+            <h2>Auth</h2>
+
+            <div class="endpoint">
+                <span class="method POST">POST</span> api/auth/signup
+                <div class="desc">
+                    Creates a new user account with role-based access.
                 </div>
+                <code
+                    >{ "id": "user_3", "name": "New User", "email":
+                    "user@test.com", "password": "123456", "roleId": 3,
+                    "status": "active" }</code
+                >
+            </div>
 
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method POST">POST</span>
-                        <span class="path">/api/auth/login</span>
-                    </div>
-                    <span>User login</span>
+            <div class="endpoint">
+                <span class="method POST">POST</span> api/auth/login
+                <div class="desc">
+                    Authenticates user and returns a JWT token.
+                </div>
+                <code>{ "email": "user@test.com", "password": "123456" }</code>
+            </div>
+
+            <!-- USERS -->
+            <h2>Users (Admin Only)</h2>
+
+            <div class="endpoint">
+                <span class="method GET">GET</span> api/users?page=1&limit=10
+                <div class="desc">Fetch all users with pagination support.</div>
+            </div>
+
+            <div class="endpoint">
+                <span class="method GET">GET</span> api/users/:id
+                <div class="desc">Fetch details of a specific user by ID.</div>
+            </div>
+
+            <div class="endpoint">
+                <span class="method POST">POST</span> api/users
+                <div class="desc">Create a new user (admin only).</div>
+                <code
+                    >{ "id": "user_5", "name": "Test User", "email":
+                    "test@test.com", "password": "123456", "roleId": 2,
+                    "status": "active" }</code
+                >
+            </div>
+
+            <div class="endpoint">
+                <span class="method PUT">PUT</span> api/users/:id
+                <div class="desc">
+                    Update user details such as role or status.
+                </div>
+                <code
+                    >{ "name": "Updated Name", "email": "updated@test.com",
+                    "roleId": 2, "status": "inactive" }</code
+                >
+            </div>
+
+            <div class="endpoint">
+                <span class="method DELETE">DELETE</span> api/users/:id
+                <div class="desc">Delete a user from the system.</div>
+            </div>
+
+            <!-- TRANSACTIONS -->
+            <h2>Transactions</h2>
+
+            <div class="endpoint">
+                <span class="method GET">GET</span> api/transactions
+                <div class="desc">
+                    Fetch transactions with filtering and pagination.
+                </div>
+                <code
+                    >api/transactions?page=1&limit=5&type=expense&userId=user_1</code
+                >
+            </div>
+
+            <div class="endpoint">
+                <span class="method POST">POST</span> api/transactions
+                <div class="desc">Create a new transaction (admin only).</div>
+                <code
+                    >{ "userId": "user_1", "categoryId": 1, "type": "expense",
+                    "amount": 500, "note": "Lunch" }</code
+                >
+            </div>
+
+            <div class="endpoint">
+                <span class="method PUT">PUT</span> api/transactions/:id
+                <div class="desc">Update an existing transaction.</div>
+                <code
+                    >{ "type": "income", "amount": 1000, "categoryId": 2,
+                    "note": "Updated" }</code
+                >
+            </div>
+
+            <div class="endpoint">
+                <span class="method DELETE">DELETE</span> api/transactions/:id
+                <div class="desc">Delete a transaction.</div>
+            </div>
+
+            <!-- TRENDS -->
+            <h2>Trends</h2>
+
+            <div class="endpoint">
+                <span class="method GET">GET</span> api/aggregate/insights
+                <div class="desc">
+                    Returns weekly, monthly, and yearly financial summaries.
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Users (Admin Only)</h2>
+            <div class="endpoint">
+                <span class="method GET">GET</span>
+                api/aggregate/insights/user/:userId
+                <div class="desc">Fetch trends for a specific user.</div>
+            </div>
 
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method POST">POST</span>
-                        <span class="path">/api/users</span>
-                    </div>
-                    <span>Create user</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method PUT">PUT</span>
-                        <span class="path">/api/users/:id</span>
-                    </div>
-                    <span>Update user</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method DELETE">DELETE</span>
-                        <span class="path">/api/users/:id</span>
-                    </div>
-                    <span>Delete user</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/users</span>
-                    </div>
-                    <span>Get all users</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/users/:id</span>
-                    </div>
-                    <span>Get user by ID</span>
+            <div class="endpoint">
+                <span class="method GET">GET</span> api/aggregate/categories
+                <div class="desc">
+                    Returns category-wise transaction counts over time.
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Transactions (Admin Only)</h2>
+            <h2>Notes</h2>
 
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/transactions</span>
-                    </div>
-                    <span>Get all transactions</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/transactions/:id</span>
-                    </div>
-                    <span>Get transaction by ID</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method POST">POST</span>
-                        <span class="path">/api/transactions</span>
-                    </div>
-                    <span>Create transaction</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method PUT">PUT</span>
-                        <span class="path">/api/transactions/:id</span>
-                    </div>
-                    <span>Update transaction</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method DELETE">DELETE</span>
-                        <span class="path">/api/transactions/:id</span>
-                    </div>
-                    <span>Delete transaction</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Insights & Aggregation</h2>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path"
-                            >/api/aggregate/insights/user/:userId</span
-                        >
-                    </div>
-                    <span>User-specific insights</span>
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/aggregate/insights</span>
-                    </div>
-                    <span
-                        >All users insights <span class="tag">Admin</span></span
-                    >
-                </div>
-
-                <div class="endpoint">
-                    <div class="left">
-                        <span class="method GET">GET</span>
-                        <span class="path">/api/aggregate/categories</span>
-                    </div>
-                    <span>Category trends <span class="tag">Admin</span></span>
-                </div>
-            </div>
+            <p class="small">
+                - All protected routes require Authorization header<br />
+                - Format: Bearer TOKEN<br />
+                - Rate limiting applied on auth routes<br />
+                - SQLite database resets on restart (seeded automatically)
+            </p>
         </div>
-
-        <footer>Built for Internship Assignment • Express API Docs</footer>
     </body>
 </html>

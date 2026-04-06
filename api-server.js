@@ -6,6 +6,7 @@ const transactionRoutes = require("./routes/transactionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const seedDatabase = require("./database/seed");
 const aggregateRoutes = require("./routes/aggregateRoutes");
+const errorHandler = require("./middlewares/errorMiddleware");
 const path = require("path");
 
 require("dotenv").config();
@@ -22,6 +23,7 @@ app.use("/api/aggregate", aggregateRoutes);
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "static", "home.html"));
 });
+app.use(errorHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

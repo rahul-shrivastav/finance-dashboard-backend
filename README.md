@@ -1,11 +1,10 @@
-<div align="center"> 
+<div align="center">
 
 # Zorvyn Dashboard API Backend
-  
+
 </div>
 
 A RESTful backend API built using **Node.js** and **Express.js** for managing users, transactions, authentication, and analytics for financial dashboards.
-
 
 ## Key Features
 
@@ -15,7 +14,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 - Insights & Aggregation APIs
 - Middleware-based Authentication & Authorization
 - Rate Limiting and Pagination
-
 
 ## Key Decisions made
 
@@ -38,7 +36,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 - Express.js
 - SQLlite
 - JWT Authentication
-
 
 ## Project Structure
 
@@ -79,7 +76,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 <img width="550" height="424" alt="Screenshot 2026-04-06 204131" src="https://github.com/user-attachments/assets/70e4a9f2-a412-48b7-a5cb-6d33d1fcfae6" />
 </div>
 
-
 <div align="center"> 
   
 # Endpoints
@@ -88,42 +84,38 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 
 ## Authentication Routes
 
-| Method | Endpoint     | Description       |
-| ------ | ------------ | ----------------- |
-| POST   | /auth/signup | Register new user |
-| POST   | /auth/login  | Login user        |
-
+| Method | Endpoint        | Description       |
+| ------ | --------------- | ----------------- |
+| POST   | api/auth/signup | Register new user |
+| POST   | api/auth/login  | Login user        |
 
 ## User Routes
 
-| Method | Endpoint   | Description    |
-| ------ | ---------- | -------------- |
-| POST   | /users     | Create user    |
-| GET    | /users     | Get all users  |
-| GET    | /users/:id | Get user by ID |
-| PUT    | /users/:id | Update user    |
-| DELETE | /users/:id | Delete user    |
-
+| Method | Endpoint      | Description    |
+| ------ | ------------- | -------------- |
+| POST   | api/users     | Create user    |
+| GET    | api/users     | Get all users  |
+| GET    | api/users/:id | Get user by ID |
+| PUT    | api/users/:id | Update user    |
+| DELETE | api/users/:id | Delete user    |
 
 ## Transaction Routes
 
-| Method | Endpoint          | Description           |
-| ------ | ----------------- | --------------------- |
-| GET    | /transactions     | Get all transactions  |
-| GET    | /transactions/:id | Get transaction by ID |
-| POST   | /transactions     | Create transaction    |
-| PUT    | /transactions/:id | Update transaction    |
-| DELETE | /transactions/:id | Delete transaction    |
-
+| Method | Endpoint             | Description           |
+| ------ | -------------------- | --------------------- |
+| GET    | api/transactions     | Get all transactions  |
+| GET    | api/transactions/:id | Get transaction by ID |
+| POST   | api/transactions     | Create transaction    |
+| PUT    | api/transactions/:id | Update transaction    |
+| DELETE | api/transactions/:id | Delete transaction    |
 
 ## Aggregate / Insights Routes
 
-| Method | Endpoint                         | Description             |
-| ------ | -------------------------------- | ----------------------- |
-| GET    | /aggregate/insights/user/:userId | User insights           |
-| GET    | /aggregate/insights              | All insights (Admin)    |
-| GET    | /aggregate/categories            | Category trends (Admin) |
-
+| Method | Endpoint                            | Description             |
+| ------ | ----------------------------------- | ----------------------- |
+| GET    | api/aggregate/insights/user/:userId | User insights           |
+| GET    | api/aggregate/insights              | All insights (Admin)    |
+| GET    | api/aggregate/categories            | Category trends (Admin) |
 
 ## Setup Instructions
 
