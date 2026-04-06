@@ -2,8 +2,6 @@ const express = require("express");
 const authenticate = require("../middlewares/authMiddleware");
 const authorize = require("../middlewares/roleMiddleware");
 
-const router = express.Router();
-
 const {
     getTransactions,
     createTxn,
@@ -11,6 +9,8 @@ const {
     deleteTxn,
     getTxnById,
 } = require("../controllers/transactionController");
+
+const router = express.Router();
 
 router.get("/", authenticate, authorize("admin"), getTransactions);
 router.get("/:id", authenticate, authorize("admin"), getTxnById);

@@ -1,4 +1,5 @@
 const db = require("../database/db");
+const { get } = require("../routes/userRoutes");
 
 const getTransactionById = (id, callback) => {
     const query = `
@@ -98,6 +99,76 @@ const deleteTransaction = (id, callback) => {
     db.run(`DELETE FROM transactions WHERE id = ?`, [id], callback);
 };
 
+const getTrendStats = (timeFilter, callback) => {
+    const query = `
+        SELECT 
+            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as totalIncome,
+            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as totalExpense,
+            COUNT(*) as numberOfTransactions,
+            AVG(amount) as averageTransactionAmount
+        FROM transactions
+        WHERE ${timeFilter}
+    `;
+
+    db.get(query, [], (err, basicStats) => {
+        if (err) return callback(err);
+
+        // Most used category
+        const categoryQuery = `
+            SELECT c.name, COUNT(*) as count
+            FROM transactions t
+            JOIN categories c ON t.categoryId = c.id
+            WHERE ${timeFilter}
+            GROUP BY t.categoryId
+            ORDER BY count DESC
+            LIMIT 1
+        `;
+
+        db.get(categoryQuery, [], (err, category) => {
+            if (err) return callback(err);
+
+            // Most frequent type
+            const typeQuery = `
+                SELECT type, COUNT(*) as count
+                FROM transactions
+                WHERE ${timeFilter}
+                GROUP BY type
+                ORDER BY count DESC
+                LIMIT 1
+            `;
+
+            db.get(typeQuery, [], (err, typeResult) => {
+                if (err) return callback(err);
+
+                callback(null, {
+                    totalIncome: basicStats.totalIncome || 0,
+                    totalExpense: basicStats.totalExpense || 0,
+                    mostUsedCategory: category?.name || null,
+                    mostFrequentTransactionType: typeResult?.type || null,
+                    averageTransactionAmount: Math.round(
+                        basicStats.averageTransactionAmount || 0,
+                    ),
+                    numberOfTransactions: basicStats.numberOfTransactions || 0,
+                });
+            });
+        });
+    });
+};
+
+const getCategoryStats = (timeFilter, callback) => {
+    const query = `
+        SELECT 
+            c.name as category,
+            COUNT(*) as count
+        FROM transactions t
+        JOIN categories c ON t.categoryId = c.id
+        WHERE ${timeFilter}
+        GROUP BY t.categoryId
+        ORDER BY count DESC
+    `;
+
+    db.all(query, [], callback);
+};
 module.exports = {
     getAllTransactions,
     createTransaction,
@@ -105,4 +176,6 @@ module.exports = {
     deleteTransaction,
     getTransactionById,
     countTransactions,
+    getTrendStats,
+    getCategoryStats,
 };

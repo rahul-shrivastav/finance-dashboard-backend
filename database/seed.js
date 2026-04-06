@@ -78,18 +78,18 @@ const seedDatabase = () => {
         const transactions = [
             ["user_1", 1, "expense", 500, "Lunch", "admin_1"],
             ["user_1", 3, "income", 20000, "Salary", "admin_1"],
-            ["user_2", 2, "income", 10000, "Salary", "admin_1"],
-            ["user_2", 2, "income", 20000, "Salary", "admin_1"],
             ["user_1", 2, "expense", 1200, "Groceries", "admin_1"],
             ["user_1", 1, "expense", 300, "Snacks", "admin_1"],
             ["user_1", 3, "income", 15000, "Freelance", "admin_1"],
+            ["user_1", 1, "expense", 50, "Tea", "admin_1"],
+            ["user_1", 2, "income", 8000, "Part-time", "admin_1"],
+            ["user_1", 2, "expense", 1800, "Utilities", "admin_1"],
+            ["user_2", 2, "income", 10000, "Salary", "admin_1"],
+            ["user_2", 2, "income", 20000, "Salary", "admin_1"],
             ["user_2", 1, "expense", 700, "Transport", "admin_1"],
             ["user_2", 3, "income", 25000, "Bonus", "admin_1"],
             ["user_2", 2, "expense", 4000, "Shopping", "admin_1"],
-            ["user_1", 1, "expense", 50, "Tea", "admin_1"],
-            ["user_1", 2, "income", 8000, "Part-time", "admin_1"],
             ["user_2", 3, "expense", 2200, "Bills", "admin_1"],
-            ["user_1", 2, "expense", 1800, "Utilities", "admin_1"],
         ];
 
         const txnQuery = `

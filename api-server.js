@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const seedDatabase = require("./database/seed");
+const aggregateRoutes = require("./routes/aggregateRoutes");
 
 require("dotenv").config();
 seedDatabase();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/aggregate", aggregateRoutes);
 
 app.get("/", (req, res) => {
     res.send("backend server running");
