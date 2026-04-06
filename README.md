@@ -1,8 +1,11 @@
+<div align="center"> 
+
 # Zorvyn Dashboard API Backend
+  
+</div>
 
 A RESTful backend API built using **Node.js** and **Express.js** for managing users, transactions, authentication, and analytics for financial dashboards.
 
----
 
 ## Key Features
 
@@ -13,7 +16,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 - Middleware-based Authentication & Authorization
 - Rate Limiting and Pagination
 
----
 
 ## Key Decisions made
 
@@ -26,14 +28,17 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 - Didn't included `Unit Tests` , `Soft Delete` fucntionality and `indexing` in DB due to time limitation.
 - Followed a proper folder structure and naming conventions and tried to include everything asked in the assignment , project includes all key requirements.
 
+<div align="center"> 
+  
 ## Tech Stack
+  
+</div>
 
 - Node.js
 - Express.js
-- MongoDB
+- SQLlite
 - JWT Authentication
 
----
 
 ## Project Structure
 
@@ -50,9 +55,15 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 └── models/
 ```
 
----
-
+<div align="center"> 
+  
 ## Architecture and DB Schema
+  
+</div>
+
+<div align="center">
+<img width="631" height="378" alt="Screenshot 2026-04-06 211638" src="https://github.com/user-attachments/assets/20246639-9fa5-4f51-b36f-3937d567e4e1" />
+</div>
 
 ### Database Entity Summary
 
@@ -63,7 +74,17 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 | **Users**        | Core profile and authentication data.           | `id`, `name`, `email`, `roleId`, `status`      | Referenced by **Transactions**.       |
 | **Transactions** | Individual entries for transactions             | `id`, `userId`, `categoryId`, `type`, `amount` | Belongs to a **User** & **Category**. |
 
----
+<div align="center">
+  
+<img width="550" height="424" alt="Screenshot 2026-04-06 204131" src="https://github.com/user-attachments/assets/70e4a9f2-a412-48b7-a5cb-6d33d1fcfae6" />
+</div>
+
+
+<div align="center"> 
+  
+# Endpoints
+  
+</div>
 
 ## Authentication Routes
 
@@ -72,7 +93,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 | POST   | /auth/signup | Register new user |
 | POST   | /auth/login  | Login user        |
 
----
 
 ## User Routes
 
@@ -84,7 +104,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 | PUT    | /users/:id | Update user    |
 | DELETE | /users/:id | Delete user    |
 
----
 
 ## Transaction Routes
 
@@ -96,7 +115,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 | PUT    | /transactions/:id | Update transaction    |
 | DELETE | /transactions/:id | Delete transaction    |
 
----
 
 ## Aggregate / Insights Routes
 
@@ -106,9 +124,6 @@ A RESTful backend API built using **Node.js** and **Express.js** for managing us
 | GET    | /aggregate/insights              | All insights (Admin)    |
 | GET    | /aggregate/categories            | Category trends (Admin) |
 
----
-
----
 
 ## Setup Instructions
 
