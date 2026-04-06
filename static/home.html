@@ -1,0 +1,257 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Backend Dashboard API Docs</title>
+        <style>
+            body {
+                font-family: "Segoe UI", sans-serif;
+                background: #0f172a;
+                color: #e2e8f0;
+                margin: 0;
+            }
+
+            header {
+                background: #020617;
+                padding: 20px;
+                margin: 50px;
+                text-align: center;
+                border-bottom: 1px solid #334155;
+                border-radius: 20px;
+            }
+
+            h1 {
+                margin: 0;
+                color: #38bdf8;
+            }
+
+            .container {
+                padding: 20px;
+                margin-left: 150px;
+                margin-right: 150px;
+            }
+
+            .section {
+                margin-bottom: 30px;
+                padding: 20px;
+                background: #1e293b;
+                border-radius: 12px;
+            }
+
+            h2 {
+                border-bottom: 1px solid #334155;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+                color: #22c55e;
+            }
+
+            .endpoint {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #334155;
+                padding: 12px;
+                margin: 8px 0;
+                border-radius: 8px;
+            }
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .method {
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            .GET {
+                background: #22c55e;
+            }
+            .POST {
+                background: #3b82f6;
+            }
+            .PUT {
+                background: #eab308;
+                color: black;
+            }
+            .DELETE {
+                background: #ef4444;
+            }
+
+            .path {
+                font-family: monospace;
+            }
+
+            .tag {
+                font-size: 12px;
+                background: #facc15;
+                color: black;
+                padding: 3px 6px;
+                border-radius: 5px;
+            }
+
+            footer {
+                text-align: center;
+                padding: 15px;
+                border-top: 1px solid #334155;
+                font-size: 12px;
+                color: #94a3b8;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>API Documentation</h1>
+            <p>Backend Routes Overview</p>
+        </header>
+
+        <div class="container">
+            <div class="section">
+                <h2>Authentication</h2>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method POST">POST</span>
+                        <span class="path">/api/auth/signup</span>
+                    </div>
+                    <span>Create new user account</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method POST">POST</span>
+                        <span class="path">/api/auth/login</span>
+                    </div>
+                    <span>User login</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Users (Admin Only)</h2>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method POST">POST</span>
+                        <span class="path">/api/users</span>
+                    </div>
+                    <span>Create user</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method PUT">PUT</span>
+                        <span class="path">/api/users/:id</span>
+                    </div>
+                    <span>Update user</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method DELETE">DELETE</span>
+                        <span class="path">/api/users/:id</span>
+                    </div>
+                    <span>Delete user</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/users</span>
+                    </div>
+                    <span>Get all users</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/users/:id</span>
+                    </div>
+                    <span>Get user by ID</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Transactions (Admin Only)</h2>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/transactions</span>
+                    </div>
+                    <span>Get all transactions</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/transactions/:id</span>
+                    </div>
+                    <span>Get transaction by ID</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method POST">POST</span>
+                        <span class="path">/api/transactions</span>
+                    </div>
+                    <span>Create transaction</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method PUT">PUT</span>
+                        <span class="path">/api/transactions/:id</span>
+                    </div>
+                    <span>Update transaction</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method DELETE">DELETE</span>
+                        <span class="path">/api/transactions/:id</span>
+                    </div>
+                    <span>Delete transaction</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Insights & Aggregation</h2>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path"
+                            >/api/aggregate/insights/user/:userId</span
+                        >
+                    </div>
+                    <span>User-specific insights</span>
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/aggregate/insights</span>
+                    </div>
+                    <span
+                        >All users insights <span class="tag">Admin</span></span
+                    >
+                </div>
+
+                <div class="endpoint">
+                    <div class="left">
+                        <span class="method GET">GET</span>
+                        <span class="path">/api/aggregate/categories</span>
+                    </div>
+                    <span>Category trends <span class="tag">Admin</span></span>
+                </div>
+            </div>
+        </div>
+
+        <footer>Built for Internship Assignment • Express API Docs</footer>
+    </body>
+</html>
